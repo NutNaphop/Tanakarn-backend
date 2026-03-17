@@ -21,4 +21,10 @@ The project follows the standard Spring Boot layered architecture:
 * `service/` - Business logic implementation
 * `repository/` - Data access layer
 * `entity/` - Database models
+
+## Testing
+- **Unit Tests:** JUnit 5
+
+---
+PS. I'm back to learning how to write tests since I'm back from the internship, and also I hate to write a test T-T
 ---
