@@ -16,7 +16,7 @@ public class UserService {
     private final AccountRepository accountRepository;
     private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository, AccountRepository accountRepository , PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public UserService(UserRepository userRepository, AccountRepository accountRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public void registerUser(String username, String rawPassword) {
-        try{
+        try {
             String hashedBtn = passwordEncoder.encode(rawPassword);
 
             User newUser = new User();
@@ -39,32 +39,30 @@ public class UserService {
             newAccount.setUser(newUser);
 
             accountRepository.save(newAccount);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public LoginResponse loginUser(String username, String rawPassword){
-        try{
-            User user = userRepository.findByUsername(username);
+    public LoginResponse loginUser(String username, String rawPassword) {
 
-            if(user == null){
-                throw new RuntimeException("User not found");
-            }
+        User user = userRepository.findByUsername(username);
 
-            if(!passwordEncoder.matches(rawPassword, user.getPassword())){
-                throw new RuntimeException("Invalid password");
-            }
-
-            String token = jwtService.generateToken(user.getId(), user.getUsername());
-            LoginResponse authResponse = new LoginResponse();
-            authResponse.setToken(token);
-            authResponse.setUsername(user.getUsername());
-            authResponse.setAccountId(user.getId());
-
-            return authResponse;
-        }catch (Exception e){
-            throw new RuntimeException(e);
+        if (user == null) {
+            throw new RuntimeException("User not found");
         }
+
+        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        String token = jwtService.generateToken(user.getId(), user.getUsername());
+        LoginResponse authResponse = new LoginResponse();
+        authResponse.setToken(token);
+        authResponse.setUsername(user.getUsername());
+        authResponse.setAccountId(user.getId());
+
+        return authResponse;
+
     }
 }
