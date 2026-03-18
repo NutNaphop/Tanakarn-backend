@@ -49,11 +49,6 @@ public class AccountService {
         inTx.setAccount(toAccount); // เชื่อมหาคนรับ
         transactionRepository.save(inTx);
 
-        // 2. เช็คยอดเงินว่าพอโอนไหม
-        if (fromAccount.getBalance() < amount) {
-            throw new RuntimeException("ยอดเงินในบัญชีไม่เพียงพอ");
-        }
-
         // 3. ปรับยอดเงินใน Object (Logic การคำนวณ)
         double fromAccountBalance = fromAccount.getBalance();
         double toAccountBalance = toAccount.getBalance();

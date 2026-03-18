@@ -6,6 +6,7 @@ import com.tanakarn.backend.auth.entity.User;
 import com.tanakarn.backend.account.repository.AccountRepository;
 import com.tanakarn.backend.auth.repository.UserRepository;
 import com.tanakarn.backend.security.jwt.JwtService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
+    @Transactional
     public void registerUser(String username, String rawPassword) {
         try {
             String hashedBtn = passwordEncoder.encode(rawPassword);
